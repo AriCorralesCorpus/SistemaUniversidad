@@ -64,4 +64,13 @@ public class CarreraController {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/{id}/publicar")
+    public ResponseEntity<Carrera> publicar(@PathVariable Long id) {
+        Carrera carrera = repo.findById(id).orElse(null);
+        if (carrera == null) {
+            return ResponseEntity.notFound().build();
+        }
+        carrera.setEstado("PUBLICADA");
+        return ResponseEntity.ok(repo.save(carrera));
+    }
 }
