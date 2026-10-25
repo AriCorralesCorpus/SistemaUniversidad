@@ -1,7 +1,9 @@
 package com.universidad.sistema.service;
 
 import com.universidad.sistema.entity.Carrera;
+import com.universidad.sistema.entity.Division;
 import com.universidad.sistema.repository.CarreraRepository;
+import com.universidad.sistema.repository.DivisionRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,9 +18,11 @@ import java.util.Optional;
 public class CarreraService {
 
     private final CarreraRepository repo;
+    private final DivisionRepository divisionRepo;
 
-    public CarreraService(CarreraRepository repo) {
+    public CarreraService(CarreraRepository repo, DivisionRepository divisionRepo) {
         this.repo = repo;
+        this.divisionRepo = divisionRepo;
     }
 
     /** Lista todas las carreras, o solo las que cumplan el estado indicado. */
@@ -41,6 +45,14 @@ public class CarreraService {
     public Carrera crear(Carrera carrera) {
         if (carrera.getEstado() == null || carrera.getEstado().isBlank()) {
             carrera.setEstado("BORRADOR");
+        }
+        // Regla de la capa service: verificar que la división exista.
+        Division division = carrera.getDivision();
+        if (division != null && division.getId() != null
+                && !divisionRepo.existsById(division.getId())) {
+            throw new CarreraDivisionInexistenteException(
+                    "No se puede crear la carrera porque la división con id "
+                    + division.getId() + " no existe.");
         }
         return repo.save(carrera);
     }
@@ -78,5 +90,12 @@ public class CarreraService {
         }
         carrera.setEstado("PUBLICADA");
         return repo.save(carrera);
+    }
+
+    /** Excepción de negocio: intento de crear una carrera con una división inexistente. */
+    public static class CarreraDivisionInexistenteException extends RuntimeException {
+        public CarreraDivisionInexistenteException(String mensaje) {
+            super(mensaje);
+        }
     }
 }

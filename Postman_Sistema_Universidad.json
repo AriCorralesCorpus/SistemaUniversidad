@@ -1,0 +1,190 @@
+{
+  "info": {
+    "name": "Sistema Universidad - API Divisiones y Carreras",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "HU01.1 - División (crear, listar, obtener, actualizar, eliminar)",
+      "item": [
+        {
+          "name": "Crear división",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Ingeniería\"\n}"
+            },
+            "url": { "raw": "http://localhost:8082/api/divisiones", "host": ["localhost"], "port": "8082", "path": ["api", "divisiones"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear segunda división",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Ciencias\"\n}"
+            },
+            "url": { "raw": "http://localhost:8082/api/divisiones", "host": ["localhost"], "port": "8082", "path": ["api", "divisiones"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Listar divisiones",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:8082/api/divisiones", "host": ["localhost"], "port": "8082", "path": ["api", "divisiones"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener división por id",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:8082/api/divisiones/1", "host": ["localhost"], "port": "8082", "path": ["api", "divisiones", "1"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener división inexistente (404)",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:8082/api/divisiones/999", "host": ["localhost"], "port": "8082", "path": ["api", "divisiones", "999"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar división",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Ingeniería Industrial\"\n}"
+            },
+            "url": { "raw": "http://localhost:8082/api/divisiones/1", "host": ["localhost"], "port": "8082", "path": ["api", "divisiones", "1"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar división con carreras (409)",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "http://localhost:8082/api/divisiones/1", "host": ["localhost"], "port": "8082", "path": ["api", "divisiones", "1"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar división sin carreras (204)",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "http://localhost:8082/api/divisiones/2", "host": ["localhost"], "port": "8082", "path": ["api", "divisiones", "2"] }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "HU01.2 - Carrera (crear, listar, obtener, actualizar, publicar, eliminar)",
+      "item": [
+        {
+          "name": "Crear carrera",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Computación\",\n  \"descripcion\": \"Lic. en Computación\",\n  \"division\": { \"id\": 1 }\n}"
+            },
+            "url": { "raw": "http://localhost:8082/api/carreras", "host": ["localhost"], "port": "8082", "path": ["api", "carreras"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear carrera con división inexistente (409)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Fantasma\",\n  \"descripcion\": \"x\",\n  \"division\": { \"id\": 999 }\n}"
+            },
+            "url": { "raw": "http://localhost:8082/api/carreras", "host": ["localhost"], "port": "8082", "path": ["api", "carreras"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Listar carreras",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:8082/api/carreras", "host": ["localhost"], "port": "8082", "path": ["api", "carreras"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Listar carreras por estado",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8082/api/carreras?estado=PUBLICADA",
+              "host": ["localhost"],
+              "port": "8082",
+              "path": ["api", "carreras"],
+              "query": [{ "key": "estado", "value": "PUBLICADA" }]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener carrera por id",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:8082/api/carreras/1", "host": ["localhost"], "port": "8082", "path": ["api", "carreras", "1"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener carrera inexistente (404)",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:8082/api/carreras/999", "host": ["localhost"], "port": "8082", "path": ["api", "carreras", "999"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar carrera",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Computación Avanzada\",\n  \"descripcion\": \"Lic. en Computación Avanzada\",\n  \"division\": { \"id\": 1 }\n}"
+            },
+            "url": { "raw": "http://localhost:8082/api/carreras/1", "host": ["localhost"], "port": "8082", "path": ["api", "carreras", "1"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Publicar carrera",
+          "request": {
+            "method": "POST",
+            "url": { "raw": "http://localhost:8082/api/carreras/1/publicar", "host": ["localhost"], "port": "8082", "path": ["api", "carreras", "1", "publicar"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar carrera",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "http://localhost:8082/api/carreras/1", "host": ["localhost"], "port": "8082", "path": ["api", "carreras", "1"] }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

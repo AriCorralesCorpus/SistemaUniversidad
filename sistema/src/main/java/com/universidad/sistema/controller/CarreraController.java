@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/carreras")
@@ -60,5 +61,12 @@ public class CarreraController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(carrera);
+    }
+
+    @ExceptionHandler(CarreraService.CarreraDivisionInexistenteException.class)
+    public ResponseEntity<Map<String, String>> divisionInexistente(
+            CarreraService.CarreraDivisionInexistenteException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(Map.of("error", ex.getMessage()));
     }
 }
