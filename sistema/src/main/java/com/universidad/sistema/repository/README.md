@@ -1,16 +1,43 @@
-# repository — Acceso a datos
+repository: quí se crean las interfaces que permiten consultar, guardar y eliminar información en H2.
 
-Capa de persistencia con Spring Data JPA.
+## Archivos que debes crear
 
-- `CarreraRepository`: extiende `JpaRepository<Carrera, Long>`.
-  - Hereda el CRUD completo: `save`, `findById`, `findAll`, `delete`, etc.
-  - Consulta personalizada: `findByEstado(String estado)` para filtrar carreras `BORRADOR` o `PUBLICADA`.
+- `DivisionRepository.java`
+- `CarreraRepository.java`
 
-No contiene lógica de negocio: solo acceso a la base de datos.
+## Reglas
 
-## Construcción
+1. Cada entidad debe tener su propio repositorio.
+2. Los repositorios deben extender de `JpaRepository`.
+3. Utilizar `Long` como tipo de identificador.
+4. No escribir consultas SQL si JPA ya permite realizar la operación.
+5. No colocar lógica de negocio en esta carpeta.
+6. No modificar las entidades ni los controladores.
 
-```bash
-./mvnw compile        # compila el repository junto con el resto del proyecto
-./mvnw spring-boot:run  # la interfaz se resuelve en tiempo de ejecución sobre H2 en memoria
+## Estructura que debes utilizar
+
+**DivisionRepository.java**
+
+```java
+public interface DivisionRepository
+        extends JpaRepository<Division, Long> {
+}
 ```
+
+**CarreraRepository.java**
+
+```java
+public interface CarreraRepository
+        extends JpaRepository<Carrera, Long> {
+}
+```
+
+Operaciones disponibles
+
+Al utilizar `JpaRepository`, tendrás métodos como:
+
+- `findAll()` — Consultar todos.
+- `findById()` — Buscar por ID.
+- `save()` — Guardar o actualizar.
+- `deleteById()` — Eliminar.
+- `existsById()` — Comprobar si existe.

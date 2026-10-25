@@ -1,15 +1,39 @@
-# controller — Endpoints REST
+controller: quí se crean las rutas de la API para recibir las peticiones del frontend o de herramientas como Thunder Client.
 
-Capa de presentación: expone la API REST de carreras.
+## Archivos que debes crear
 
-- `CarreraController`: endpoints `GET`, `POST`, `PUT`, `DELETE` sobre `/api/carreras`, más `POST /api/carreras/{id}/publicar`.
-- Inyecta `CarreraService` (no accede directamente a la base de datos): el flujo es controller → service → repository.
-- `@CrossOrigin(origins = "http://localhost:5173")` habilita las llamadas del frontend en desarrollo.
-- Respuestas: `200` (OK), `201` (creada), `204` (eliminada), `404` (recurso inexistente).
+- `DivisionController.java`
+- `CarreraController.java`
 
-## Construcción
+## Rutas de divisiones
 
-```bash
-./mvnw compile        # compilar
-./mvnw spring-boot:run  # ejecutar en http://localhost:8081
-```
+| Método | Ruta | Función |
+|---|---|---|
+| GET | /api/divisiones | Consultar todas |
+| GET | /api/divisiones/{id} | Consultar una |
+| POST | /api/divisiones | Registrar |
+| PUT | /api/divisiones/{id} | Actualizar |
+| DELETE | /api/divisiones/{id} | Eliminar |
+
+## Rutas de carreras
+
+| Método | Ruta | Función |
+|---|---|---|
+| GET | /api/carreras | Consultar todas |
+| GET | /api/carreras/{id} | Consultar una |
+| POST | /api/carreras | Registrar |
+| PUT | /api/carreras/{id} | Actualizar |
+| DELETE | /api/carreras/{id} | Eliminar |
+
+## Reglas
+
+1. Utilizar `@RestController` en las clases.
+2. Utilizar `@RequestMapping` para definir la ruta principal.
+3. Utilizar `@GetMapping`, `@PostMapping`, `@PutMapping` y `@DeleteMapping`.
+4. Recibir la información mediante los DTO `Request`.
+5. Devolver la información mediante los DTO `Response`.
+6. Llamar a los métodos de `service` para realizar las operaciones.
+7. No realizar consultas directas a la base de datos.
+8. No colocar lógica de negocio en los controladores.
+9. Utilizar las rutas definidas en este README.
+

@@ -1,20 +1,38 @@
-# service — Lógica de negocio
+service: aquí se programa la lógica del sistema.
 
-Capa de servicios: contiene las operaciones de negocio y delega la persistencia al repository.
+Los servicios utilizan los repositorios para guardar, consultar, actualizar y eliminar información.
 
-- `CarreraService`:
-  - `listar(String estado)`: todas las carreras o filtradas por estado (`BORRADOR` / `PUBLICADA`). `@Transactional(readOnly = true)`.
-  - `obtener(Long id)`: devuelve `Optional<Carrera>`; vacío si no existe. `@Transactional(readOnly = true)`.
-  - `crear(Carrera)`: guarda una nueva carrera; el estado inicial es `BORRADOR`. `@Transactional`.
-  - `actualizar(Long id, Carrera datos)`: aplica los datos sobre la carrera existente; devuelve `null` si no existe. `@Transactional`.
-  - `eliminar(Long id)`: borra la carrera; devuelve `false` si no existe. `@Transactional`.
-  - `publicar(Long id)`: cambia el estado de `BORRADOR` a `PUBLICADA`; devuelve `null` si no existe. `@Transactional`.
+## Archivos que debes crear
 
-El controller inyecta este servicio; el servicio inyecta `CarreraRepository`.
+- `DivisionService.java`
+- `CarreraService.java`
 
-## Construcción
+## Métodos que deben tener
 
-```bash
-./mvnw compile        # compila la capa de servicio
-./mvnw spring-boot:run  # el servicio se activa con el arranque de la app en http://localhost:8081
-```
+**DivisionService**
+
+- `listarDivisiones()`
+- `obtenerDivision(Long id)`
+- `crearDivision(DivisionRequest datos)`
+- `actualizarDivision(Long id, DivisionRequest datos)`
+- `eliminarDivision(Long id)`
+
+**CarreraService**
+
+- `listarCarreras()`
+- `obtenerCarrera(Long id)`
+- `crearCarrera(CarreraRequest datos)`
+- `actualizarCarrera(Long id, CarreraRequest datos)`
+- `eliminarCarrera(Long id)`
+
+## Reglas
+
+1. Utilizar `@Service` en las clases.
+2. Acceder a H2 mediante los repositorios.
+3. No escribir consultas directamente en esta carpeta.
+4. Verificar que un registro exista antes de editarlo o eliminarlo.
+5. Al crear una carrera, comprobar que la división exista.
+6. No permitir eliminar una división que tenga carreras registradas.
+7. Usar los DTO acordados para recibir y devolver información.
+8. No modificar las rutas HTTP; eso corresponde a `controller`.
+9. Mantener los métodos cortos y fáciles de entender.

@@ -1,17 +1,39 @@
-# entity — Modelo de datos
+entity: aquí se crean las clases que representan las tablas de la base de datos H2.
 
-Clases JPA que representan las tablas de la base de datos H2.
+## Archivos que debes crear
 
-- `Carrera`: entidad de la oferta académica.
-  - `id` (Long, generado por la BD)
-  - `nombre` (String)
-  - `facultad` (String)
-  - `descripcion` (String, máximo 1000 caracteres)
-  - `estado` (String: `BORRADOR` o `PUBLICADA`)
+- `Division.java`
+- `Carrera.java`
 
-## Construcción
+## Campos de cada clase
+Division.java
 
-```bash
-./mvnw compile        # compila la entidad junto con el resto del proyecto
-./mvnw spring-boot:run  # la BD H2 en memoria (jdbc:h2:mem:alumnos) se crea al arrancar
-```
+| Campo | Tipo |
+|---|---|
+| id | Long |
+| nombre | String |
+| carreras | List<Carrera> |
+
+Carrera.java
+
+| Campo | Tipo |
+|---|---|
+| id | Long |
+| nombre | String |
+| descripcion | String |
+| division | Division |
+
+## Reglas
+
+1. Utilizar `@Entity` para identificar las entidades.
+2. Utilizar `@Id` y `@GeneratedValue` para generar los identificadores.
+3. Las tablas deben llamarse `divisiones` y `carreras`.
+4. Una división puede tener muchas carreras: `@OneToMany`.
+5. Una carrera pertenece a una sola división: `@ManyToOne`.
+6. La relación debe utilizar la columna `division_id` en la tabla `carreras`.
+7. No crear tablas adicionales para esta relación.
+8. Evitar que la relación genere referencias circulares al devolver JSON.
+9. No colocar consultas ni lógica de negocio en estas clases.
+
+## Importante
+Estas clases serán utilizadas por las carpetas `repository`, `service` y `controller`.
