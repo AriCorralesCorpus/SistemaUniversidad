@@ -46,13 +46,15 @@ public class CarreraService {
         if (carrera.getEstado() == null || carrera.getEstado().isBlank()) {
             carrera.setEstado("BORRADOR");
         }
-        // Regla de la capa service: verificar que la división exista.
+        // Regla de la capa service: verificar que la división exista y
+        // asociar la entidad completa (con nombre) a la carrera.
         Division division = carrera.getDivision();
-        if (division != null && division.getId() != null
-                && !divisionRepo.existsById(division.getId())) {
-            throw new CarreraDivisionInexistenteException(
-                    "No se puede crear la carrera porque la división con id "
-                    + division.getId() + " no existe.");
+        if (division != null && division.getId() != null) {
+            Division existente = divisionRepo.findById(division.getId())
+                    .orElseThrow(() -> new CarreraDivisionInexistenteException(
+                            "No se puede crear la carrera porque la división con id "
+                            + division.getId() + " no existe."));
+            carrera.setDivision(existente);
         }
         return repo.save(carrera);
     }
