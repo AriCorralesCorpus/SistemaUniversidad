@@ -29,12 +29,12 @@ public class CarreraController {
     public ResponseEntity<Carrera> obtener(@PathVariable Long id) {
         return service.obtener(id)
                 .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .orElse(ResponseEntity.ok().build());
     }
 
     @PostMapping
     public ResponseEntity<Carrera> crear(@RequestBody Carrera carrera) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.crear(carrera));
+        return ResponseEntity.status(HttpStatus.OK).body(service.crear(carrera));
     }
 
     @PutMapping("/{id}")
